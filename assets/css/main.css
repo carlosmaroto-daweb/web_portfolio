@@ -1608,6 +1608,7 @@ body.loaded {
 .portfolio_gallery .gallery_item {
 	max-width: 930px;
 	width: 100%;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 .portfolio_gallery .owl-dots {
 	display: -webkit-box;
