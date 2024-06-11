@@ -8,6 +8,7 @@ on:
 
 env:
   DIRECTORY_FOLDER: /var/www/
+  DIRECTORY_FOLDER_2: /var/www
   PROYECT_FOLDER: web_portfolio
   URL_REPOSITORIE: git@github.com:carlosmaroto-daweb/web_portfolio.git
   SUBDOMAIN: www.carlosmaroto-daweb.com
@@ -22,7 +23,7 @@ jobs:
           chmod 600 mi_clave.pem
           ssh -i mi_clave.pem -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
             sudo rm -r $DIRECTORY_FOLDER$PROYECT_FOLDER
-            sudo git clone $URL_REPOSITORIE $DIRECTORY_FOLDER
+            sudo git clone $URL_REPOSITORIE $DIRECTORY_FOLDER_2
             sudo systemctl stop nginx
             if [ ! -f /etc/nginx/sites-available/$SUBDOMAIN ]; then
               sudo touch /etc/nginx/sites-available/$SUBDOMAIN
