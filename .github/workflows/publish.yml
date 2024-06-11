@@ -21,9 +21,8 @@ jobs:
           echo "${{ secrets.AUTH_PASS }}" > mi_clave.pem
           chmod 600 mi_clave.pem
           ssh -i mi_clave.pem -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
-            sudo cd $DIRECTORY_FOLDER
-            sudo rm -r $PROYECT_FOLDER
-            sudo git clone $URL_REPOSITORIE
+            sudo rm -r $DIRECTORY_FOLDER$PROYECT_FOLDER
+            sudo git clone $URL_REPOSITORIE $DIRECTORY_FOLDER
             sudo systemctl stop nginx
             if [ ! -f /etc/nginx/sites-available/$SUBDOMAIN ]; then
               sudo touch /etc/nginx/sites-available/$SUBDOMAIN
