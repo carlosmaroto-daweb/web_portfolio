@@ -1,0 +1,45 @@
+name: publish
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+env:
+  DIRECTORY_FOLDER: /var/www/
+  PROYECT_FOLDER: web_portfolio
+  URL_REPOSITORIE: git@github.com:carlosmaroto-daweb/web_portfolio.git
+  SUBDOMAIN: www.carlosmaroto-daweb.com
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into Serverlogin ghcr.io -u carlosmaroto-daweb -p ${{ secrets.TOKEN_CD }}
+        run: |
+          echo "${{ secrets.AUTH_PASS }}" > mi_clave.pem
+          chmod 600 mi_clave.pem
+          ssh -i mi_clave.pem -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
+            sudo cd $DIRECTORY_FOLDER
+            sudo rm -r $PROYECT_FOLDER
+            sudo git clone $URL_REPOSITORIE
+            sudo systemctl stop nginx
+            if [ ! -f /etc/nginx/sites-available/$SUBDOMAIN ]; then
+              sudo touch /etc/nginx/sites-available/$SUBDOMAIN
+              sudo ln -s /etc/nginx/sites-available/$SUBDOMAIN /etc/nginx/sites-enabled/$SUBDOMAIN
+              sudo certbot certonly --standalone -d $SUBDOMAIN --cert-name $SUBDOMAIN --non-interactive --agree-tos --email carlosmaroto.daweb@gmail.com
+            fi
+            sudo echo '
+            server {
+              listen 443 ssl;
+              server_name $SUBDOMAIN;
+
+              ssl_certificate /etc/letsencrypt/live/$SUBDOMAIN/fullchain.pem;
+              ssl_certificate_key /etc/letsencrypt/live/$SUBDOMAIN/privkey.pem;
+
+              root $DIRECTORY_FOLDER$PROYECT_FOLDER;
+            }' > /tmp/nginx_site_config
+            sudo mv /tmp/nginx_site_config /etc/nginx/sites-available/$SUBDOMAIN
+            sudo systemctl start nginx
+          EOF
