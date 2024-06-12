@@ -1312,6 +1312,10 @@ body.loaded {
 .portfolio-box .image-box {
 	text-align: center;
 }
+.portfolio-box .image-box img {
+	width: 100%;
+	height: auto;
+}
 .portfolio-box .content-box {
 	position: absolute;
 	bottom: 15px;
