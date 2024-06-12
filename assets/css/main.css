@@ -1295,7 +1295,6 @@ body.loaded {
 }
 .portfolio-box .portfolio-sizer {
 	width: 48%;
-	height: auto;
 }
 .portfolio-box .portfolio-item {
 	background-color: var(--tj-theme-accent-2);
@@ -1312,10 +1311,6 @@ body.loaded {
 }
 .portfolio-box .image-box {
 	text-align: center;
-}
-.portfolio-box .image-box img {
-	width: 100%;
-	height: 75%;
 }
 .portfolio-box .content-box {
 	position: absolute;
