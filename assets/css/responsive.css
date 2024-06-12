@@ -701,9 +701,11 @@
 	}
 	.portfolio-box .portfolio-sizer {
 		width: 100%;
+		height: auto;
 	}
 	.portfolio-box .portfolio-item {
 		width: 100%;
+		height: auto;
 		padding: 25px 15px 0 15px;
 		margin-bottom: 30px;
 	}

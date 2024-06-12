@@ -1295,6 +1295,7 @@ body.loaded {
 }
 .portfolio-box .portfolio-sizer {
 	width: 48%;
+	height: auto;
 }
 .portfolio-box .portfolio-item {
 	background-color: var(--tj-theme-accent-2);
