@@ -1717,6 +1717,7 @@ body.loaded {
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	text-decoration: none;
+	cursor: pointer;
 }
 .portfolio_navigation .navigation_item .project i {
 	font-size: 30px;
