@@ -2389,7 +2389,7 @@ blockquote {
 .wp-block-quote::before,
 blockquote::before {
 	display: block;
-	content: "\f10e";
+	content: "\f121";
 	font-size: 40px;
 	line-height: 1;
 	font-family: var(--tj-ff-fontawesome);
@@ -2793,6 +2793,13 @@ blockquote cite::before {
 	color: var(--tj-white);
 	background-color: var(--tj-theme-primary);
 }
+
+.responsive-iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Esto asegura que la altura sea proporcional */
+}
+
 /* END: Blog Details Page */
 
 /*
