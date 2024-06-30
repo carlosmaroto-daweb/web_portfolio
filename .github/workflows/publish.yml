@@ -18,9 +18,9 @@ jobs:
     steps:
       - name: SSH into Serverlogin ghcr.io -u carlosmaroto-daweb -p ${{ secrets.TOKEN_CD }}
         run: |
-          echo "${{ secrets.AUTH_PASS }}" > rsa_key
-          chmod 600 rsa_key
-          ssh -i rsa_key -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
+          echo "${{ secrets.AUTH_PASS }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
             sudo rm -r $DIRECTORY_FOLDER$PROYECT_FOLDER
             sudo git clone $URL_REPOSITORIE $DIRECTORY_FOLDER$PROYECT_FOLDER
             sudo systemctl stop nginx
