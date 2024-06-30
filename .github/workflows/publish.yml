@@ -10,7 +10,7 @@ env:
   DIRECTORY_FOLDER: /var/www/
   PROYECT_FOLDER: web_portfolio
   URL_REPOSITORIE: git@github.com:carlosmaroto-daweb/web_portfolio.git
-  SUBDOMAIN: carlosmaroto-daweb.duckdns.org/
+  SUBDOMAIN: carlosmaroto-daweb.duckdns.org
 
 jobs:
   deploy:
@@ -22,7 +22,7 @@ jobs:
           chmod 600 rsa_key
           ssh -i rsa_key -o StrictHostKeyChecking=no ${{ secrets.AUTH_SERVER }} << EOF
             sudo rm -r $DIRECTORY_FOLDER$PROYECT_FOLDER
-            sudo git clone $URL_REPOSITORIE $DIRECTORY_FOLDER$PROYECT_FOLDER
+            git clone $URL_REPOSITORIE $DIRECTORY_FOLDER$PROYECT_FOLDER
             sudo systemctl stop nginx
             if [ ! -f /etc/nginx/sites-available/$SUBDOMAIN ]; then
               sudo touch /etc/nginx/sites-available/$SUBDOMAIN
