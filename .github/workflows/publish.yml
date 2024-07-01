@@ -10,7 +10,7 @@ env:
   DIRECTORY_FOLDER: /var/www/
   PROYECT_FOLDER: web_portfolio
   URL_REPOSITORIE: git@github.com:carlosmaroto-daweb/web_portfolio.git
-  SUBDOMAIN: carlosmaroto-daweb.duckdns.org
+  SUBDOMAIN: www.carlosmaroto-daweb.com
 
 jobs:
   deploy:
@@ -30,6 +30,13 @@ jobs:
               sudo certbot certonly --standalone -d $SUBDOMAIN --cert-name $SUBDOMAIN --non-interactive --agree-tos --email carlosmaroto.daweb@gmail.com
             fi
             sudo echo '
+            server {
+              listen 80;
+              server_name $SUBDOMAIN;
+
+              return 301 https://\$host\$request_uri;
+            }
+
             server {
               listen 443 ssl;
               server_name $SUBDOMAIN;
