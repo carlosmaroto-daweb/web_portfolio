@@ -1,0 +1,90 @@
+Instalamos Ubuntu Server
+Iniciamos sesión en la cuenta creada y hacemos que se pueda utilizar el root
+sudo passwd root
+exit
+
+Iniciamos en la de root
+sudo apt update
+sudo apt install openssh-server
+sudo systemctl start ssh
+sudo systemctl enable ssh
+sudo nano /etc/ssh/sshd_config
+Añadir las sentencias:
+PermitRootLogin yes
+sudo systemctl restart ssh
+ip a // Ver la IP a la que conectarnos
+
+
+Desde otro ordenador dentro de la red local
+ssh-keygen -t rsa -b 4096 -C "carlosmaroto-daweb@gmail.com"
+cat ~/.ssh/id_rsa.pub
+ssh root@192.168.1.74
+nano ~/.ssh/authorized_keys // Meter el contenido de la clave publica
+sudo nano /etc/ssh/sshd_config
+PubkeyAuthentication yes
+PasswordAuthentication no
+sudo systemctl restart ssh
+
+sudo nano /etc/netplan/50-cloud-init.yaml
+network:
+  version: 2
+  ethernets:
+    enp4s0f1:
+      dhcp4: no
+      addresses:
+        - 192.168.1.100/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+
+sudo netplan apply
+
+Se cerrará sesión y ahora podemos acceder con
+ssh root@192.168.1.100
+
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install certbot
+
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo apt install nginx
+
+
+Crea una cuenta en DuckDNS
+sudo mkdir -p /opt/duckdns
+sudo nano /opt/duckdns/duck.sh
+echo url="https://www.duckdns.org/update?domains=carlosmaroto-daweb.duckdns.org&token=c94b6bd2-cddd-452e-a642-933e7d480e43&ip=" | curl -k -o /opt/duckdns/duck.log -K -
+sudo chmod +x /opt/duckdns/duck.sh
+sudo crontab -e
+*/5 * * * * /opt/duckdns/duck.sh >/dev/null 2>&1
+
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 22/tcp
+sudo ufw enable
+
+
+Acceder desde el navegador a http://192.168.1.1/
+HTTP	192.168.1.100	TCP	80	80
+HTTPS	192.168.1.100	TCP	443	443
+SSH	192.168.1.100	TCP	22	22
+
+
+ssh-keygen -t ed25519 -C "carlosmaroto.daweb@gmail.com"
+cat .ssh/id_ed25519.pub
+meter la clave en GitHub como ssh
